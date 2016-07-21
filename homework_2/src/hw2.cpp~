@@ -1,0 +1,218 @@
+#include<iostream>
+#include<cmath>
+using namespace std;
+
+void print_menu();
+void print_line(int, double, double, double, double, double);
+void print_remaining_spaces(int, int);
+bool exceeds_width_inclusive(int, int);
+int print_entry(int, int, int);
+int print_entry(double, int, int);
+
+const int TERM_WIDTH {55};
+const double RATE_TO_PERCENT {1e-2};
+const int NORM_COL_WIDTH {8};
+//Extra weights caused by symbols
+//Dollar ($.00) Integer () Double (.0)
+const enum PRINT_WEIGHT {DOLLAR = 4, INTEGER = 0, DOUBLE = 2};
+int main() {
+  cout.setf(ios::fixed);
+  cout.setf(ios::showpoint);
+  cout.precision(2);
+
+  int month{};
+  double balance = 0,
+    payment = 0,
+    rate = 0,
+    interest = 0,
+    principal = 0,
+    monthly_rate = 0,
+    tot_interest = 0;
+    
+
+  cout << "Loan Amount: ";
+  cin >> balance;
+
+  cout << "Interest Rate (% per year): ";
+  cin >> rate;
+
+  cout << "Monthly Payments: ";
+  cin >> payment;
+  cout << endl;
+
+  monthly_rate = rate / 12;
+
+  //Checks to see if the payment is greater than
+  //the initial interest. Exits if it is not.
+  if(payment < (monthly_rate * RATE_TO_PERCENT * balance)) {
+    cout << "Monthly payments must be greater than"
+	 << " interest. You will not pay off loan"
+	 << " on this scheme. Exiting.";
+    return 0;
+  }
+      
+  print_menu();
+
+  print_line(month, balance, payment, rate, interest, principal);
+  month++;
+  
+  while(balance > 0) {
+    interest = balance * monthly_rate * RATE_TO_PERCENT;
+    tot_interest += interest;
+    
+    principal = payment - interest;
+    balance -= principal;
+
+    if(balance < 0) {
+      principal += balance;
+      payment = principal;
+      balance = 0;
+    }
+    
+    print_line(month, balance, payment, monthly_rate, interest, principal);
+
+    month++;
+  }
+  
+  return 0;
+}
+
+void print_menu() {
+  for(int i = 0; i < TERM_WIDTH; i++) {
+    cout << "*";
+  }
+  cout << endl << "          "
+       << "Amortization Table"
+       << endl;
+  for(int i = 0; i < TERM_WIDTH; i++) {
+    cout << "*";
+  }
+  cout << endl;
+
+  cout << "Month   Balance Payment Rate    Interest Principal"
+       << endl;
+}
+
+//Prints the next payment line following the spacing
+//set forth by the individual description columns.
+//Attempts to print the infomation below each relavant
+//column, but assures that at least 1 space exists between elements.
+void print_line (int month, double balance, double payment,
+		 double rate, double interest, double principal) {
+  int shift_width{};
+
+  //Always starts with a balance and a month.
+  //IE no possibility of a "N\A".
+  shift_width = print_entry(month, PRINT_WIEGHT::INTEGER, NORM_COL_WIDTH);
+  print_remaining_spaces(0, shift_width);
+
+  cout << "$";
+  shift_width = print_entry(balance, PRINT_WEIGHT::DOLLAR, NORM_COL_WIDTH);
+  print_remaining_spaces(0, shift_width);
+
+  switch (month) {
+  case 0:
+    cout << "N\\A";
+    print_remaining_spaces(3, NORM_COL_WIDTH - shift_width);
+    break;
+  default:
+    cout << "$";
+    shift_width = print_entry(payment, PRINT_WEIGHT::DOLLAR + shift_width, NORM_COL_WIDTH);
+    print_remaining_spaces(0, shift_width);
+  }
+
+  switch (month) {
+  case 0:
+    cout << "N\\A";
+    print_remaining_spaces(3, NORM_COL_WIDTH);
+    break;
+  default:
+    shift_width = print_entry(rate, PRINT_WEIGHT::DOUBLE + shift_width, NORM_COL_WIDTH);
+    print_remaining_spaces(0, shift_width);
+  }
+
+  switch (month) {
+  case 0:
+    cout << "N\\A";
+    //special width column
+    print_remaining_spaces(3, (NORM_COL_WIDTH + 1));
+    break;
+  default:
+    cout << "$";
+    //special width column
+    shift_width = print_entry(interest, PRINT_WEIGHT::DOLLAR + shift_width, (NORM_COL_WIDTH + 1));
+    print_remaining_spaces(0, shift_width);
+  }
+
+  switch (month) {
+  case 0:
+    cout << "N\\A";
+    print_remaining_spaces(3, NORM_COL_WIDTH);
+    break;
+  default:
+    cout << "$";
+    shift_width = print_entry(principal, PRINT_WEIGHT::DOLLAR + shift_width, NORM_COL_WIDTH);
+    print_remaining_spaces(0, shift_width);
+  }
+  
+  cout << endl;
+}
+
+//Prints individual values recording their character width.
+//Returns the character overflow if any, else returns 0;
+//int value: number to be displayed to output
+//int weight: special weight to be added to the length of number
+//int entry_width: space the character should occupy
+//return int: the length of the character overflow past entry_width
+int inline print_entry(int value, int weight, int entry_width) {
+  int number_width{};
+  number_width = 1 + weight + static_cast<int>(log10((value > 0)? value: 1));
+
+  cout << value;
+  print_remaining_spaces(number_width, entry_width);
+  
+  if(exceeds_width_inclusive(entry_width, number_width)) {
+    return number_width - 7;
+  }
+  return 0;
+}
+
+//Prints individual values recording their character width.
+//Returns the character overflow if any, else returns 0;
+//double value: number to be displayed to output
+//int weight: special weight to be added to the length of number
+//int entry_width: space the character should occupy
+//return int: the length of the character overflow past entry_width
+int inline print_entry(double value, int weight, int entry_width) {
+  int number_width{};
+  number_width = 1 + weight + static_cast<int>(log10((value > 0)? value: 1));
+
+  cout << value;
+  print_remaining_spaces(number_width, entry_width);
+  
+  if(exceeds_width_inclusive(entry_width, number_width)) {
+    return number_width - 7;
+  }
+  return 0;
+}
+
+//Prints a number of spaces specified by a start to a end.
+//Counts [start, end).
+//int start: starting number
+//int end: number to end on
+void inline print_remaining_spaces(int start, int end) {
+  while(start < end) {
+    cout << " ";
+    start++;
+  }
+}
+
+//Determines inclusively (<=) if a given
+//width exceeds its allowance.
+//int allowance: tolerance of width
+//int width: actually width of output
+bool inline exceeds_width_inclusive(int allowance, int width) {
+  if(allowance <= width)
+    return true;
+  return false;
+}

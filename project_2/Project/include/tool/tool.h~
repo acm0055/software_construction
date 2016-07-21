@@ -1,0 +1,6 @@
+#ifndef TOOL_H
+#define TOOL_H 1
+class Tool {
+
+};
+#endif /*TOOL_H*/

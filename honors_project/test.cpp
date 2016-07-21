@@ -1,0 +1,118 @@
+#include "vigenere_cipher.h"
+#include "columnar_cipher.h"
+#include "crypto_buffer.h"
+#include <fstream>
+#include <iostream>
+#include <string>
+#include <cassert>
+using namespace std;
+using namespace crypto_engine;
+
+//Global test files
+const string empty_msg{};
+const string one_msg{"s"};
+const string avg_msg{"Hello how are you?"};
+const string empty_key{};
+const string one_key{"d"};
+const string avg_key{"TestTest"};
+
+void test_columnar_cipher();
+void test_vigenere_cipher();
+
+//Run all tests
+int main() {
+  //  test_columnar_cipher();
+  test_vigenere_cipher();
+}
+
+void test_vigenere_cipher()
+{
+  crypto_buffer buff{};
+  string temp_enc{};
+  string temp_dcr{};
+  crypto_method* one = new vigenere_cipher(one_key);
+  crypto_method* empty = new vigenere_cipher(empty_key);
+  crypto_method* avg = new vigenere_cipher(avg_key);
+
+
+  cout << "\tCase 1: Key longer than file" << endl;
+  buff.encrypt(one_msg, avg);
+  temp_enc = buff.get_buffer();
+  cout << buff << endl;
+  buff.decrypt(one_msg, avg);
+  temp_dcr = buff.get_buffer();
+  cout << buff << endl;
+  assert(temp_enc == temp_dcr);
+  cout << "\tPassed..." << endl;
+  
+  cout << "\tCase 2: Empty key" << endl;
+  //assert(empty == nullptr);
+  cout << "\tPassed..." << endl;
+
+  cout << "\tCase 3: One letter key" << endl;
+  buff.encrypt(avg_msg, one);
+  temp_enc = buff.get_buffer();
+  buff.decrypt(avg_msg, one);
+  temp_dcr = buff.get_buffer();
+  assert(temp_enc == temp_dcr);
+  cout << "\tPassed..." << endl;
+  
+  cout << "\tCase 4: Average message and key" << endl;
+  buff.encrypt(avg_msg, avg);
+  temp_enc = buff.get_buffer();
+  buff.decrypt(avg_msg, avg);
+  temp_dcr = buff.get_buffer();
+  assert(temp_enc == temp_dcr);
+  cout << "\tPassed..." << endl;
+  
+  cout << "\tCase 5: Empty message" << endl;
+  buff.encrypt(empty_msg, avg);
+  temp_enc = buff.get_buffer();
+  buff.decrypt(empty_msg, avg);
+  temp_dcr = buff.get_buffer();
+  assert(temp_enc == temp_dcr);
+  cout << "\tPassed..." << endl;
+  
+  cout << "\tCase 6: One letter message" << endl;
+  buff.encrypt(one_msg, avg);
+  temp_enc = buff.get_buffer();
+  buff.decrypt(one_msg, avg);
+  temp_dcr = buff.get_buffer();
+  assert(temp_enc == temp_dcr);
+  cout << "\tPassed..." << endl;
+
+  delete one;
+  delete avg;
+}
+void test_columnar_cipher()
+{
+  crypto_buffer buff{};
+  string temp_enc{};
+  string temp_dcr{};
+  crypto_method* one = new columnar_cipher(one_key);
+  crypto_method* empty = new columnar_cipher(empty_key);
+  crypto_method* avg = new columnar_cipher(avg_key);
+
+  cout << "\tCase 2: Empty key" << endl;
+  //assert(empty == nullptr);
+  cout << "\tPassed..." << endl;
+  
+  cout << "\tCase 4: Average message and key" << endl;
+  buff.encrypt(avg_msg, avg);
+  temp_enc = buff.get_buffer();
+  buff.decrypt(temp_enc, avg);
+  temp_dcr = buff.get_buffer();
+  assert(temp_dcr.substr(0,3) == avg_msg.substr(0,3));
+  cout << "\tPassed..." << endl;
+  
+  cout << "\tCase 6: One letter message" << endl;
+  buff.encrypt(one_msg, avg);
+  temp_enc = buff.get_buffer();
+  buff.decrypt(one_msg, avg);
+  temp_dcr = buff.get_buffer();
+  assert(temp_enc == temp_dcr);
+  cout << "\tPassed..." << endl;
+
+  delete one;
+  delete avg;
+}

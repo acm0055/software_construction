@@ -1,0 +1,12 @@
+#include <string>
+#include <memory>
+
+class crypto_method {
+ protect:
+  std::string message;
+  std::string key;
+ public:
+  crypto_method(std::string message, std::string key);
+  std::unique_ptr<std::string> encrypt();
+  std::unique_ptr<std::string> decrypt();
+}

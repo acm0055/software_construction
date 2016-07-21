@@ -1,0 +1,16 @@
+#include <string>
+#include <vector>
+#include <memory>
+#include "crypto_method.h"
+
+class columnar_cipher : public crypto_method {
+ private:
+  int key_length;
+  std::vector order;
+  void init_order();
+ public:
+  columnar_cipher(std::string message, std::string key);
+  std::unique_ptr<std::string> encrypt();
+  std::unique_ptr<std::string> decrypt();
+}
+

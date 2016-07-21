@@ -1,0 +1,95 @@
+#include <cstddef>
+#include <string>
+#include <vector>
+#include <memory>
+#include <climits>
+#include <iostream>
+#include <cmath>
+#include "vigenere_cipher.h"
+
+using namespace std;
+
+//Constructs a vigenere cipher from
+//a password.
+//Input: key - password for encryption/decryption
+vigenere_cipher::vigenere_cipher(string key)
+  : crypto_method{key}
+{
+      //do nothing 
+}
+
+//do nothing
+vigenere_cipher::~vigenere_cipher() {
+  //do nothing
+}
+
+//Encrypts by the modulo definition of
+//the vigenere cipher. This is evident
+//by the shifting nature of the cipher.
+//On most systems, the guarentee of the
+//password characters keeps the value in
+//an appropriate range for shifting.
+//Input: message - message to encrypt
+//Output: encrypted message
+string vigenere_cipher::encrypt(const string& message) {
+  if (message.length() < key.length()) {
+    cerr << "Key is larger than message. Exiting.\n";
+    exit(1);
+  }
+  string encrypted_message{};
+
+  //learned from https://en.wikipedia.org/wiki/Modulo_operation
+  //that % operator may not be mathematically defined
+  for (string::size_type i = 0; i < message.length() - 1; i++) {
+    char character_code = proper_mod(message.at(i) + key.at(i % key.length()),
+				    CHAR_MAX);
+    //by def of mod below guarenteed to cast to char
+    encrypted_message.push_back(static_cast<char>(character_code));
+  }
+
+  return encrypted_message;
+}
+
+//Decrypts by a reformulation
+//of the modulo definition of
+//the vigenere cipher for encryption.
+//This is evident by the shifting nature of the cipher.
+//On most systems, the guarentee of the
+//password characters keeps the value in
+//an appropriate range for shifting.
+//Input: message - message to decrypt
+//Output: decrypted (with right password) message
+string vigenere_cipher::decrypt(const string& message) {
+  if (message.length() < key.length()) {
+    cerr << "Key is larger than message. Exiting.\n";
+    exit(1);
+  }
+  string decrypted_message{};
+
+  //learned from https://en.wikipedia.org/wiki/Modulo_operation
+  //that % operator may not be mathematically defined
+  for (string::size_type i = 0; i < message.length() - 1; i++) {
+    char character_code = proper_mod(message.at(i) - key.at(i % key.length()),
+				    CHAR_MAX);
+    //by def of mod below guarenteed to cast to char
+    decrypted_message.push_back(static_cast<char>(character_code));
+  }
+
+  return decrypted_message;
+}
+
+//Method for performing a special case
+//proper mathematical modulus
+//for the encrypt and decrypt functions.
+//input: num - number
+//       den - divisor
+//output: remainder
+//       -Since using this is a special
+//        case for characters char is
+//        guarenteed to hold the result
+//        of the operation.
+char vigenere_cipher::proper_mod(int num, int den) {
+  if (num < 0)
+    return num + den;
+  return num % den;
+}

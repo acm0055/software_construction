@@ -1,0 +1,145 @@
+\documentclass{article}
+\usepackage{algpseudocode}
+\usepackage{array}
+
+\title{Project 1: Design}
+\author{Austin Chase Minor}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\section{Algorithms}
+\begin{algorithmic}
+  \Function{add\_question}{string quesiton, string answer,
+    user\_prop modifications, quiz\_list list}
+  \State quiz\_node *elem = quiz\_node(null, question, answer, modifications)
+  \If{list.size $>$ 0}
+    \State list.tail.next = elem
+    \State list.tail = list.tail.next
+  \Else
+    \State list.head = elem
+    \State list.tail = elem
+  \EndIf
+  \EndFunction
+\end{algorithmic}
+\begin{algorithmic}
+  \Function{remove\_question}{quiz\_list list}
+  \If{list.size $>$ 0}
+    \State quiz\_node* elem = list.head
+    \If{list.size == 1}
+      \State list.head = null
+      \State list.tail = null
+    \Else
+      \State list.head = list.head.next
+      \State list.size = list.size - 1
+    \EndIf
+    \State \Return elem
+  \Else
+    \State \Return null
+  \EndIf
+  \EndFunction
+\end{algorithmic}
+\begin{algorithmic}
+  \Function{parse\_question}{file\_stream file}
+  \State string question, answer, user\_mods
+  \State question = first line
+  \State answer = second line
+  \State user\_mods = third line
+  \State \Return quiz\_node(null, question, answer, parse\_user\_prop(user\_mods))
+  \EndFunction
+\end{algorithmic}
+\begin{algorithmic}
+  \Function{parse\_user\_prop}{string props}
+  \State string time, money, intelligence
+  \State time = first value before comma in props
+  \State answer = second value before comma in props
+  \State user\_mods = third value before comma in props
+  \State \Return user\_prop(time, money, intelligence)
+  \EndFunction
+\end{algorithmic}
+\begin{algorithmic}
+  \Function{grunt\_work}{user\& user\_in}
+  \State time\_loss = ((random() \% 2) + 1) * -1
+  \State intelligence\_loss = ((random() \% 2) + 1) * -1
+  \State mod\_user\_prop(user\_in.attr, user\_prop(time\_loss, 0, intelligence\_loss))
+  \EndFunction
+\end{algorithmic}
+\begin{algorithmic}
+  \Function{do\_nothing}{user\& user\_in}
+  \State mod\_user\_prop(user\_in.attr, user\_prop(1, 0, 0))
+  \EndFunction
+\end{algorithmic}
+\begin{algorithmic}
+  \Function{professor}{user\& user\_in}
+  \State time\_loss = ((random() \% 2) + 1) * -1
+  \State intelligence\_gain = (random() \% 3) * -1
+  \State mod\_user\_prop(user\_in.attr, user\_prop(time\_loss, 0, intelligence\_loss))
+  \EndFunction
+\end{algorithmic}
+\begin{algorithmic}
+  \Function{grad\_student}{user\& user\_in}
+  \State time\_loss = ((random() \% 2) + 1) * -1
+  \State mod\_user\_prop(user\_in.attr, user\_prop(time\_loss, 0, 0))
+  \EndFunction
+\end{algorithmic}
+\begin{algorithmic}
+  \Function{grade\_papers}{user\& user\_in}
+  \State time\_loss = ((random() \% 2) + 1) * -1
+  \State money\_gain = ((random() \% 2) + 1)
+  \State mod\_user\_prop(user\_in.attr, user\_prop(time\_loss, 0, money\_gain))
+  \EndFunction
+\end{algorithmic}
+\begin{algorithmic}
+  \Function{puzzle}{user\& user\_in}
+  \State quiz\_node* question =  remove\_question(quiz\_list)
+  \State string user\_response
+  \State output question.question
+  \State output "User Response: "
+  \State input user\_response
+  \If{user\_response == question.answer}
+    \State output "You are correct"
+    \State mod\_user\_prop(user\_in.attr, question.mods)
+  \Else
+    \State output "You are wrong. Correct answer: "
+    \State output question.answer
+    \State user\_prop neg\_mods = user\_prop(question.mods.time, question.mods.money * -1, question.mods.intelligence * -1)
+    \State mod\_user\_prop(user\_in.attr, neg\_mods)
+  \EndIf
+  \EndFunction
+\end{algorithmic}
+\section{System-Tests}
+{
+\small
+\begin{tabular}{|m{1.5cm}|m{1.5cm}|m{1.5cm}|m{1.5cm}|m{1.5cm}|m{1.5cm}|}
+  \hline
+  \textbf{Methods} & \textbf{start menu} & \textbf{move select} &
+  \textbf{display high scores} & \textbf{write high scores} &
+  \textbf{display character} \\
+  \hline
+  \textbf{Test} &
+  Tester should verify that the proper menu is displayed. &
+  Tester should verify that the proper menu is displayed. &
+  Tester should verify that the high scores are displayed. &
+  Tester should verify that the proper high scores are displayed.
+  (With default scores file)
+  Chase: Score:3 ... Minor: Score: 5 ... Austin: Score: 7 &
+  Tester should verify that the user is properly displayed.\\
+  \hline
+  \textbf{Test} &
+  Tester should verify that each command does appropriate action. &
+  Tester should verify that each command does appropriate action. &
+  Nothing &
+  Nothing &
+  Tester should verify that after some gameplay user statistics have changed.\\
+  \hline
+  \textbf{Test} &
+  Tester should verify that a non-menu command brings up message and repeats menu. &
+  Tester should verify that a non-menu command brings up message and repeats menu. &
+  Nothing &
+  Nothing &
+  Nothing \\
+  \hline
+\end{tabular}
+}
+\end{document}

@@ -1,0 +1,27 @@
+#include <vector>
+#include <string>
+#include <memory>
+#include <algorithm>
+using namespace std;
+
+columnar_cipher::columnar_cipher(string message, string key) {
+  crypto_method{message, key};
+
+  key_length = key.size();
+  //initalize order with the values in key
+  copy(0, key.length(), order);
+  //bring forth the new order of things
+  init_order();
+}
+unique_ptr<string> columnar_cipher::encrypt() {
+  return unique_ptr<string> {nullptr};
+}
+unique_ptr<string> columnar_cipher::decrypt() {
+  return unique_ptr<string> {nullptr};
+}
+
+void columnar_cipher::init_order() {
+  //stable sort the characters in order
+  stable_sort(order);
+}
+

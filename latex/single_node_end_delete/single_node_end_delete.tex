@@ -1,0 +1,129 @@
+\documentclass{article}
+\usepackage[noend]{algpseudocode}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+
+\author{Auburn University - Software Construction \\ Austin Chase Minor}
+\title{Single Linked List End Node Deletion Using One
+  Pointer}
+\date{\today}
+
+\renewcommand{\qedsymbol}{$\spadesuit$}
+
+\begin{document}
+\maketitle
+
+\begin{algorithmic}[1]
+  \Function{delete\_last\_node}{Node* list}
+  \If {list == null}
+  \State \Return 0
+  \EndIf
+  \If {list-\textgreater next == null}
+  \State delete list
+  \State list = null
+  \State \Return 0
+  \EndIf
+  \While {list-\textgreater next-\textgreater next != null}
+  \State list = list-\textgreater next
+  \EndWhile
+  \State delete list-\textgreater next
+  \State list-\textgreater next = null
+  \State \Return 0
+  \EndFunction
+\end{algorithmic}
+
+\text{}\\
+\textbf{Proof}
+\begin{description}
+\item[Loop Invarient]
+  \text{}\\
+  At the start of the while loop on line 8, list.next is guarenteed to
+  exist.
+\item[Initialization]
+  \text{}
+ 
+ If the loop is reached in line 8, we know that (i) list is not null and (ii)
+ list.next is not null. (i) follows from lines 2-3 and (ii) follows from lines
+ 4 - 7. Thus for (i) nothing is deleted. Thus for (ii) the last node (which
+ happens to be the first node) is deleted. Thus the loop invarient holds
+ before the first time the loop is executed.
+\item[Maintenance]
+  \text{}
+
+  The loop has to possibilities. Either (i) list.next.next does not exist
+  (null) or (ii) list.next.next does exist. In (i), the loop breaks and we
+  know from the loop invarient that list.next exists (since no work was
+  done). In (ii), list.next.next does exist. Thus line 9 executes setting list
+  to list.next. Since list.next.next exists and list = list.next we know that
+  the new list.next must exist. Thus the loop holds for maintenace.
+\item[Termination]
+  \text{}
+
+  Since the loop invarient holds for maintenance, we know that at the end of
+  the loop that (i) list.next exists and (ii) list.next.next does not
+  exist. Thus, list.next is the last element. This element is thus deleted and
+  set to null. Furthermore, it can be easily shown that this strategy applies
+  to circular lists. Just replace line 11 with list.next = head\_node and
+  replace the check in line 8 with list.next.next != head\_node. Therefore,
+  this algorithm is correct.
+\end{description}
+\textbf{Efficiency}\\
+
+For comparison purposes presented bellow is the algorithm for a different two
+node version of delete\_last\_node modified from Dr. Qin C++ lecture slides.\\
+
+\begin{algorithmic}[1]
+  \Function{delete\_last\_node}{Node* list}
+  \State Node* (cur\_ptr, pre\_ptr) = null
+  \If {list == null}
+  \State \Return 0
+  \EndIf
+  \If {list.next == null}
+  \State delete list
+  \State list = null
+  \State \Return 0
+  \EndIf
+  \State pre\_ptr = list;
+  \State cur\_ptr = list-\textgreater next;
+  \While {cur\_ptr-\textgreater next != null}
+  \State pre\_ptr = cur\_ptr;
+  \State cur\_ptr = cur\_ptr-\textgreater next;
+  \EndWhile
+  \State delete list-\textgreater next
+  \State list-\textgreater next = null
+  \State \Return 0
+  \EndFunction
+\end{algorithmic}
+
+\text{}\\
+
+Obviously some simplications were made in the algorithms listed above compared
+to real implementations (dealing with pointer references, etc.). However, the
+proof and general memory/speed analysis is well approximated.\\
+\textbf{Memory Efficiency}\\
+
+Through analysis it is obvious that the single node algorithm presented needs
+only space for one pointer. In c++, it would need space for two pointers
+because of the pointer reference issue. The double node algorithm in c++ would
+require the use of three pointers: list, cur\_ptr, and pre\_ptr. Thus even in
+c++, the single node algorithm is more space efficient by one address
+variable.\\
+\textbf{Speed Efficiency}\\
+
+Establishing constants on every needed line of the single node algorithm and
+assuming for simplicity that every if statement executes
+yields: $T(N) = c_2 + c_3 + c_4 + c_5 + c_6 + c_7 + (K_N + 1) * c_8 + K_N *
+c_9 + c_{10} + c_{11} + c_{12}$ Where $K_N$ is the number of items in the list
+less 2. I.E. the algorithm stops on the next, next to last element. Applying
+some napkin calculations to the time constants yields: $T(N) = 2 + 1 + 4 + 5 +
+2 + 1 +1 + (N-1)*5 + (N-2)*3 + 3 + 3 + 1 = 8N + 12$.
+
+Doing a similar analysis for the two node algorithm yields: $T(N) = 2 + 2 + 1
++ 4 + 2 + 1 + 1 + 2 + 4 + (N-1)*4 + (N-2)*2 + (N-2)*4 + 3 + 3 + 1 = 10N + 8$
+
+Thus using back of the napkin speed efficiency analysis the one node ($T(N) =
+8N + 12$)  and two
+node ($T(N) = 10N + 8$) algorithms have similar speed efficiency. Thus the one
+node algorithm performs similarly to the two node algorithm with a added space efficiency.
+\end{document}

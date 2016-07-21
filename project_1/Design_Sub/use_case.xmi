@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uml:Model xmi:version="2.1"
+    xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:uml="http://schema.omg.org/spec/UML/2.2" xsi:schemaLocation="http://schema.omg.org/spec/UML/2.2 http://www.eclipse.org/uml2/3.0.0/UML" xmi:id="_hKgxcO7YEeWaK99nzPe7VA"
+    name="untitledModel">
+  <packagedElement xmi:type="uml:Actor" xmi:id="_jj_xUO7YEeWaK99nzPe7VA" name="User"/>
+  <packagedElement xmi:type="uml:UseCase" xmi:id="_kNs1oO7YEeWaK99nzPe7VA" name="Take Turn"/>
+  <packagedElement xmi:type="uml:UseCase" xmi:id="_neLu8O7YEeWaK99nzPe7VA" name="Move">
+    <generalization xmi:type="uml:Generalization" xmi:id="_Eqxk8O7ZEeWaK99nzPe7VA" general="_kNs1oO7YEeWaK99nzPe7VA"
+        specific="_neLu8O7YEeWaK99nzPe7VA"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:UseCase" xmi:id="_oMBsYO7YEeWaK99nzPe7VA" name="Read Technical Papers">
+    <generalization xmi:type="uml:Generalization" xmi:id="_FFkqkO7ZEeWaK99nzPe7VA" general="_kNs1oO7YEeWaK99nzPe7VA"
+        specific="_oMBsYO7YEeWaK99nzPe7VA"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:UseCase" xmi:id="_peahUO7YEeWaK99nzPe7VA" name="Search for Loose Change">
+    <generalization xmi:type="uml:Generalization" xmi:id="_F8edYO7ZEeWaK99nzPe7VA" general="_kNs1oO7YEeWaK99nzPe7VA"
+        specific="_peahUO7YEeWaK99nzPe7VA"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:UseCase" xmi:id="_qsgsIO7YEeWaK99nzPe7VA" name="View Character">
+    <generalization xmi:type="uml:Generalization" xmi:id="_GWdqsO7ZEeWaK99nzPe7VA" general="_kNs1oO7YEeWaK99nzPe7VA"
+        specific="_qsgsIO7YEeWaK99nzPe7VA"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:UseCase" xmi:id="_roRw0O7YEeWaK99nzPe7VA" name="Quit the Game">
+    <generalization xmi:type="uml:Generalization" xmi:id="_Ff6dMO7ZEeWaK99nzPe7VA" general="_kNs1oO7YEeWaK99nzPe7VA"
+        specific="_roRw0O7YEeWaK99nzPe7VA"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:UseCase" xmi:id="_thQEoO7YEeWaK99nzPe7VA" name="Generate Random Encounter">
+    <include xmi:type="uml:Include" xmi:id="_HVwkgO7ZEeWaK99nzPe7VA" addition="_vbgx4O7YEeWaK99nzPe7VA"
+        includingCase="_thQEoO7YEeWaK99nzPe7VA"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:UseCase" xmi:id="_vbgx4O7YEeWaK99nzPe7VA" name="Face Encounter">
+    <include xmi:type="uml:Include" xmi:id="_IRDIEO7ZEeWaK99nzPe7VA" addition="_neLu8O7YEeWaK99nzPe7VA"
+        includingCase="_vbgx4O7YEeWaK99nzPe7VA"/>
+    <extensionPoint xmi:type="uml:ExtensionPoint" xmi:id="_-dsXoO7YEeWaK99nzPe7VA" useCase="_vbgx4O7YEeWaK99nzPe7VA"/>
+    <extensionPoint xmi:type="uml:ExtensionPoint" xmi:id="_-4L7QO7YEeWaK99nzPe7VA" useCase="_vbgx4O7YEeWaK99nzPe7VA"/>
+    <extensionPoint xmi:type="uml:ExtensionPoint" xmi:id="__dgO0O7YEeWaK99nzPe7VA" useCase="_vbgx4O7YEeWaK99nzPe7VA"/>
+    <extensionPoint xmi:type="uml:ExtensionPoint" xmi:id="_BYWK4O7ZEeWaK99nzPe7VA" useCase="_vbgx4O7YEeWaK99nzPe7VA"/>
+    <extensionPoint xmi:type="uml:ExtensionPoint" xmi:id="_CBEXwO7ZEeWaK99nzPe7VA" useCase="_vbgx4O7YEeWaK99nzPe7VA"/>
+    <extensionPoint xmi:type="uml:ExtensionPoint" xmi:id="_Cc274O7ZEeWaK99nzPe7VA" useCase="_vbgx4O7YEeWaK99nzPe7VA"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:UseCase" xmi:id="_w3LeoO7YEeWaK99nzPe7VA" name="Do Nothing">
+    <generalization xmi:type="uml:Generalization" xmi:id="_D17y8O9uEeWcrfkdLkTV6A" general="_D1z3IO9uEeWcrfkdLkTV6A"
+        specific="_w3LeoO7YEeWaK99nzPe7VA"/>
+    <generalization xmi:type="uml:Generalization" xmi:id="_F-tdUO9uEeWcrfkdLkTV6A" general="_vbgx4O7YEeWaK99nzPe7VA"
+        specific="_w3LeoO7YEeWaK99nzPe7VA"/>
+    <extend xmi:type="uml:Extend" xmi:id="_-dtlwO7YEeWaK99nzPe7VA" extendedCase="_vbgx4O7YEeWaK99nzPe7VA"
+        extensionLocation="_-dsXoO7YEeWaK99nzPe7VA" extension="_w3LeoO7YEeWaK99nzPe7VA"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:UseCase" xmi:id="_ytangO7YEeWaK99nzPe7VA" name="Tackle Grunt Work">
+    <generalization xmi:type="uml:Generalization" xmi:id="_GVT_cO9uEeWcrfkdLkTV6A" general="_vbgx4O7YEeWaK99nzPe7VA"
+        specific="_ytangO7YEeWaK99nzPe7VA"/>
+    <extend xmi:type="uml:Extend" xmi:id="_-4MiUO7YEeWaK99nzPe7VA" extendedCase="_vbgx4O7YEeWaK99nzPe7VA"
+        extensionLocation="_-4L7QO7YEeWaK99nzPe7VA" extension="_ytangO7YEeWaK99nzPe7VA"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:UseCase" xmi:id="_0Kd0UO7YEeWaK99nzPe7VA" name="Answer Puzzle">
+    <generalization xmi:type="uml:Generalization" xmi:id="_HLWPkO9uEeWcrfkdLkTV6A" general="_vbgx4O7YEeWaK99nzPe7VA"
+        specific="_0Kd0UO7YEeWaK99nzPe7VA"/>
+    <extend xmi:type="uml:Extend" xmi:id="_CBEXwe7ZEeWaK99nzPe7VA" extendedCase="_vbgx4O7YEeWaK99nzPe7VA"
+        extensionLocation="_CBEXwO7ZEeWaK99nzPe7VA" extension="_0Kd0UO7YEeWaK99nzPe7VA"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:UseCase" xmi:id="_1PIWUO7YEeWaK99nzPe7VA" name="Encounter a Professor">
+    <generalization xmi:type="uml:Generalization" xmi:id="_H_aw0O9uEeWcrfkdLkTV6A" general="_vbgx4O7YEeWaK99nzPe7VA"
+        specific="_1PIWUO7YEeWaK99nzPe7VA"/>
+    <extend xmi:type="uml:Extend" xmi:id="_Cc274e7ZEeWaK99nzPe7VA" extendedCase="_vbgx4O7YEeWaK99nzPe7VA"
+        extensionLocation="_Cc274O7ZEeWaK99nzPe7VA" extension="_1PIWUO7YEeWaK99nzPe7VA"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:UseCase" xmi:id="_4sQkgO7YEeWaK99nzPe7VA" name="Grade Papers">
+    <generalization xmi:type="uml:Generalization" xmi:id="_G2idMO9uEeWcrfkdLkTV6A" general="_vbgx4O7YEeWaK99nzPe7VA"
+        specific="_4sQkgO7YEeWaK99nzPe7VA"/>
+    <extend xmi:type="uml:Extend" xmi:id="_BYWK4e7ZEeWaK99nzPe7VA" extendedCase="_vbgx4O7YEeWaK99nzPe7VA"
+        extensionLocation="_BYWK4O7ZEeWaK99nzPe7VA" extension="_4sQkgO7YEeWaK99nzPe7VA"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:UseCase" xmi:id="_61cekO7YEeWaK99nzPe7VA" name="Hang Out with Fellow Grad Student">
+    <generalization xmi:type="uml:Generalization" xmi:id="_IoKy4O9uEeWcrfkdLkTV6A" general="_vbgx4O7YEeWaK99nzPe7VA"
+        specific="_61cekO7YEeWaK99nzPe7VA"/>
+    <extend xmi:type="uml:Extend" xmi:id="__dg14O7YEeWaK99nzPe7VA" extendedCase="_vbgx4O7YEeWaK99nzPe7VA"
+        extensionLocation="__dgO0O7YEeWaK99nzPe7VA" extension="_61cekO7YEeWaK99nzPe7VA"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_L4CncO7aEeWaK99nzPe7VA" memberEnd="_L4Cnce7aEeWaK99nzPe7VA _L4Cncu7aEeWaK99nzPe7VA"
+      navigableOwnedEnd="_L4Cnce7aEeWaK99nzPe7VA _L4Cncu7aEeWaK99nzPe7VA">
+    <ownedEnd xmi:type="uml:Property" xmi:id="_L4Cnce7aEeWaK99nzPe7VA" type="_jj_xUO7YEeWaK99nzPe7VA"
+        owningAssociation="_L4CncO7aEeWaK99nzPe7VA" association="_L4CncO7aEeWaK99nzPe7VA"/>
+    <ownedEnd xmi:type="uml:Property" xmi:id="_L4Cncu7aEeWaK99nzPe7VA" type="_kNs1oO7YEeWaK99nzPe7VA"
+        owningAssociation="_L4CncO7aEeWaK99nzPe7VA" association="_L4CncO7aEeWaK99nzPe7VA"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_NKuXUO7aEeWaK99nzPe7VA" memberEnd="_NKuXUe7aEeWaK99nzPe7VA _NKuXUu7aEeWaK99nzPe7VA"
+      navigableOwnedEnd="_NKuXUe7aEeWaK99nzPe7VA _NKuXUu7aEeWaK99nzPe7VA">
+    <ownedEnd xmi:type="uml:Property" xmi:id="_NKuXUe7aEeWaK99nzPe7VA" type="_jj_xUO7YEeWaK99nzPe7VA"
+        owningAssociation="_NKuXUO7aEeWaK99nzPe7VA" association="_NKuXUO7aEeWaK99nzPe7VA"/>
+    <ownedEnd xmi:type="uml:Property" xmi:id="_NKuXUu7aEeWaK99nzPe7VA" type="_vbgx4O7YEeWaK99nzPe7VA"
+        owningAssociation="_NKuXUO7aEeWaK99nzPe7VA" association="_NKuXUO7aEeWaK99nzPe7VA"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:UseCase" xmi:id="_D1z3IO9uEeWcrfkdLkTV6A"/>
+</uml:Model>

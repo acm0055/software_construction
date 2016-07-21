@@ -1,0 +1,92 @@
+Test add_question()
+	Case 1: Standard Quiz Node
+		Case 1.1: Size Change
+		Passed...
+		Case 1.2: Proper List
+		Passed...
+		Case 1.2: Proper Node
+		Passed...
+	Passed...
+Test remove_question()
+	Case 1: Empty List
+	Passed...
+	Case 2: One Element List
+		Case 2.1: Proper List
+		Passed...
+		Case 2.2: Proper Node
+		Passed...
+	Passed...
+	Case 3: Average List
+	Passed...
+Test parse_question()
+	Case 1: Unknown file returns nullptr.
+	Passed...
+	Case 2: Parse first question of file.
+	Passed...
+	Case 3: Parse second question of file.
+	Passed...
+Test do_nothing()
+	Case 1: Testing over iterations.
+	Passed...
+Test grad_student()
+	Case 1: Testing over iterations.
+	Passed...
+Test grade_papers()
+	Case 1: Testing over iterations.
+	Passed...
+Test grunt_work()
+	Case 1: Testing over iterations.
+	Passed...
+Test professor()
+	Case 1: Testing over iterations.
+	Passed...
+Test puzzle()
+	Case 1: Tester should miss question. 
+	Answer is the same as question.
+Test
+User Response: You are wrong.
+Correct Answer: Test
+	Passed...
+	Case 2: Tester should answer question correctly.
+	Answer is the same as question.
+Test Test
+User Response: You are correct!
+	Passed...
+Test mod_user_prop()
+	Case 1: Modify user properties.
+	Passed...
+Test generate_encounter()
+	Case 1: Testing over iterations.
+Test Test
+User Response: You are correct!
+
+chase. You have encountered grunt work. As you hopeless type away,
+the disapointment of grad life naws at your soul. Lose intelligence and time.
+
+
+chase. You have encountered a mass of papers. As the tower of dead trees colapse on your desk, you are filled with a
+ spirit of hard work. You knock out these grades. Lose time and gain money.
+
+Test
+User Response: You are wrong.
+Correct Answer: Test
+
+chase. You have encountered a fellow grad student. You compete in video game,
+the enjoyment of a day off nourishes your soul. Lose time and money.
+
+
+chase. You have encountered a mass of papers. As the tower of dead trees colapse on your desk, you are filled with a
+ spirit of hard work. You knock out these grades. Lose time and gain money.
+
+Test
+User Response: You are wrong.
+Correct Answer: Test
+
+chase. You have encountered grunt work. As you hopeless type away,
+the disapointment of grad life naws at your soul. Lose intelligence and time.
+
+Test Test
+User Response: You are correct!
+Test Test
+User Response: You are correct!
+	Passed...

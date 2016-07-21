@@ -1,0 +1,99 @@
+#include <string>
+#include <iostream>
+#include <fstream>
+#include "audisktool.h"
+#include "../parser/sw_parser.h"
+#include "disk_config.h"
+
+Disk_Config::Disk_Config(string file_name)
+{
+  parse_config(file_name);
+}
+
+void Disk_Config::parse_config(string file_name)
+{
+  string config_parse_rule{"Interval\nCount\n"
+      "print_blk_read\nprint_blk_read/s\n"
+      "print_kb_read/s\nprint_blk_write\n"
+      "print_blk_write/s\nprint_kb_write/s\n"};
+  
+  SW_Parser<config_item> sw{config_parse_rule,
+      file_name};
+
+  sw.parse_file();
+  list<config_item> temp_list = sw.get_list();
+  config_item temp_elem;
+
+  //Put in disk config file
+  //verbose for readability
+  //may remove verbose and
+  //assume more about the formating
+  //if speed becomes an issue.
+  while (!temp_list.empty()) {
+    temp_elem = temp_list.front();
+    temp_list.pop_front();
+    if (temp_elem.key == "Interval")
+      config.interval = stod(temp_elem.value);
+    else if (temp_elem.key == "Count")
+      config.count = stoi(temp_elem.value);
+    else if (temp_elem.key == "print_blk_read")
+      config.print_blk_read = stoi(temp_elem.value);
+    else if (temp_elem.key == "print_blk_read/s")
+      config.print_blk_read_s = stoi(temp_elem.value);
+    else if (temp_elem.key == "print_kb_read/s")
+      config.print_kb_read_s = stoi(temp_elem.value);
+    else if (temp_elem.key == "print_blk_write")
+      config.print_blk_write = stoi(temp_elem.value);
+    else if (temp_elem.key == "print_blk_write/s")
+      config.print_blk_write_s = stoi(temp_elem.value);
+    else
+      //print_kb_write/s
+      config.print_kb_write_s = stoi(temp_elem.value);
+  }
+}
+
+disk_config Disk_Config::get_config()
+{
+  return config;
+}
+
+disk_config Disk_Config::set_config(disk_config new_config)
+{
+  config = new_config;
+}
+
+void Disk_Config::print_config()
+{
+  cout << "Interval: " << config.interval
+       << "s" << endl
+       << "Count: " << config.count
+       << endl
+       << "blk_read: " << config.print_blk_read
+       << endl
+       << "blk_read/s: " << config.print_blk_read_s
+       << endl
+       << "kb_read/s: " << config.print_kb_read_s
+       << endl
+       << "blk_write: " << config.print_blk_write
+       << endl
+       << "blk_write/s: " << config.print_blk_write_s
+       << endl
+       << "kb_write/s: " << config.print_kb_write_s
+       << endl;
+}
+
+void Disk_Config::write_config(string file_name)
+{
+    //http://www.cplusplus.com/reference/fstream/fstream/fstream/
+  //for ios_base modes
+  ofstream file{file_name, ios_base::trunc};
+
+  file << config.interval << ' '
+       << config.count << ' '
+       << config.print_blk_read << ' '
+       << config.print_blk_read_s << ' '
+       << config.print_kb_read_s << ' '
+       << config.print_blk_write << ' '
+       << config.print_blk_write_s << ' '
+       << config.print_kb_write_s;
+}

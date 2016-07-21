@@ -1,0 +1,16 @@
+class Disk_Command_Line {
+ private:
+  DSK_CMD_TYPE current_cmd;
+ public:
+  enum DSK_CMD_TYPE {
+    RUN, SET_INT, SET_CNT,
+    SET_RPT, SET_BLK_RD,
+    SET_BLK_RDS, SET_KB_RDS,
+    SET_BLK_WT, SET_BLK_WTS,
+    SET_KB_WTS, PRNT_CONF,
+    PRNT_RPT, SAVE, HELP
+  };
+  
+  void parse_cmd();
+  DSK_CMD_TYPE run_cmd();
+}

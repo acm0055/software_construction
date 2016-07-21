@@ -1,0 +1,105 @@
+#include "encounter.h"
+#include "user.h"
+#include "puzzle.h"
+#include <cstdlib>
+#include <string>
+#include <iostream>
+using namespace std;
+
+const int NUM_ENCOUNTERS{6};
+
+encounter_func* generate_encounter_array() {
+  encounter_func* out = new encounter_func[NUM_ENCOUNTERS];
+  out[0] = &grunt_work;
+  out[1] = &do_nothing;
+  out[2] = &puzzle;
+  out[3] = &professor;
+  out[4] = &grad_student;
+  out[5] = &grade_papers;
+}
+
+void grunt_work(user& user_in, void*)
+{
+  char time_loss = ((rand() % 2) + 1) * -1;
+  char intelligence_loss = ((rand() % 2) + 1) * -1;
+  user_prop mods{time_loss, 0, intelligence_loss};
+  mod_user_prop(user_in.attr, mods);
+}
+
+void do_nothing(user& user_in, void*)
+{
+}
+
+void professor(user& user_in, void*)
+{
+  char time_loss = ((rand() % 2) + 1) * - 1;
+  char intelligence_gain = (rand() % 3);
+  user_prop mods{time_loss, 0, intelligence_gain};
+  mod_user_prop(user_in.attr, mods);
+}
+
+void grad_student(user& user_in, void*)
+{
+  char time_loss = ((rand() % 2) + 1) * -1;
+  user_prop mods{time_loss, 0, 0};
+  mod_user_prop(user_in.attr, mods);
+}
+
+void grade_papers(user& user_in, void*)
+{
+  char time_loss = ((rand() % 2) + 1) * -1;
+  char money_gain = ((rand() % 2) + 1);
+  user_prop mods{time_loss, money_gain, 0};
+  mod_user_prop(user_in.attr, mods);
+}
+
+void puzzle(user& user_in, void* puzzle_list)
+{
+  quiz_list* quiz = static_cast<quiz_list*>(puzzle_list);
+  quiz_node* question = remove_question(*quiz);
+
+  string user_resp{};
+
+  cout << question->question << endl;
+  cout << "User Response: ";
+  getline(cin, user_resp);
+
+  if (user_resp == question->answer) {
+    cout << "You are correct!" << endl;
+    mod_user_prop(user_in.attr, question->mods);
+  }
+  else {
+    cout << "You are wrong." << endl;
+    cout << "Correct Answer: " << question->answer << endl;
+    user_prop neg_mods{question->mods.time,
+	question->mods.money * -1,
+	question->mods.intelligence * -1};
+    mod_user_prop(user_in.attr, neg_mods);
+  }
+}
+
+encounter_func generate_encounter() {
+  int temp = rand() % NUM_ENCOUNTERS;
+  switch (static_cast<encounter>(temp)) {
+  case encounter::grunt_work:
+    return &grunt_work;
+    break;
+  case encounter::do_nothing:
+    return &do_nothing;
+    break;
+  case encounter::puzzle:
+    return &puzzle;
+    break;
+  case encounter::professor:
+    return &professor;
+    break;
+  case encounter::grad_student:
+    return &grad_student;
+    break;
+  case encounter::grade_papers:
+    return &grade_papers;
+    break;
+  default:
+    return &do_nothing;
+  }
+}

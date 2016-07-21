@@ -1,0 +1,10 @@
+objects = hw1.o
+
+hw1: $(objects)
+	cc -o hw1 $(objects)
+
+hw1.o : src/hw1.cpp
+
+.PHONY : clean
+clean :
+	rm hw1 $(objects)

@@ -1,0 +1,21 @@
+CXX = g++
+CXXFLAGS = -g -std=c++11
+
+OBJS = sw_parser.o tool.o command_wrapper.o disk_monitor.o monitor.o
+PARP = include/parser
+MISP = include/misc
+MONP = include/monitor
+TOOP = include/tool
+
+all: $(OBJS)
+	$(CXX) $(CXXFLAGS) $(OBJS) -o audisktool
+sw_parser.o: $(PARP)/sw_parser.cpp $(PARP)/sw_parser.h $(MISP)/audisktool.h
+	$(CXX) $(CXXFLAGS) -c $(PARP)/sw_parser.cpp
+tool.o: $(TOOP)/tool.cpp
+	$(CXX) $(CXXFLAGS) -c $(TOOP)/tool.cpp
+command_wrapper.o: $(MISP)/command_wrapper.cpp $(MISP)/command_wrapper.h $(MISP)/audisktool.h
+	$(CXX) $(CXXFLAGS) -c $(MISP)/command_wrapper.cpp
+disk_monitor.o: $(MONP)/disk_monitor.cpp $(MONP)/disk_monitor.h $(MONP)/monitor.h $(MONP)/monitor.cpp
+	$(CXX) $(CXXFLAGS) -c $(MONP)/disk_monitor.cpp
+monitor.o: $(MONP)/monitor.h $(MONP)/monitor.cpp
+	$(CXX) $(CXXFLAGS) -c $(MONP)/monitor.cpp

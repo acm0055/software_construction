@@ -1,0 +1,94 @@
+\documentclass{article}
+\usepackage[noend]{algpseudocode}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+
+\author{Austin Chase Minor}
+\title{Single Linked List End Node Deletion Using One
+  Pointer\\AuburnUniversity - Software Construction}
+\date{\today}
+
+\renewcommand{\qedsymbol}{$\spadesuit$}
+
+\begin{document}
+\maketitle
+
+\begin{algorithmic}[1]
+  \Function{delete\_last\_node}{Node* list}
+  \If {list == null}
+  \State \Return 0
+  \EndIf
+  \If {list.next == null}
+  \State delete list
+  \State list = null
+  \State \Return
+  \EndIf
+  \While {list.next.next != null}
+  \State list = list.next
+  \EndWhile
+  \State delete list.next
+  \State list.next = null
+  \State \Return
+  \EndFunction
+\end{algorithmic}
+
+\text{}\\
+\textbf{Proof}
+\begin{description}
+\item[Loop Invarient]
+  \text{}\\
+  At the start of the while loop on line 8, list.next is guarenteed to
+  exist.
+\item[Initialization]
+ \text{}\\
+ If the loop is reached in line 8, we know that (i) list is not null and (ii)
+ list.next is not null. (i) follows from lines 2-3 and (ii) follows from lines
+ 4 - 7. Thus for (i) nothing is deleted. Thus for (ii) the last node (which
+ happens to be the first node) is deleted. Thus the loop invarient holds
+ before the first time the loop is executed.
+\item[Maintenance]
+  \text{}\\
+  The loop has to possibilities. Either (i) list.next.next does not exist
+  (null) or (ii) list.next.next does exist. In (i), the loop breaks and we
+  know from the loop invarient that list.next exists (since no work was
+  done). In (ii), list.next.next does exist. Thus line 9 executes setting list
+  to list.next. Since list.next.next exists and list = list.next we know that
+  the new list.next must exist. Thus the loop holds for maintenace.
+\item[Termination]
+  \text{}\\
+  Since the loop invarient holds for maintenance, we know that at the end of
+  the loop that (i) list.next exists and (ii) list.next.next does not
+  exist. Thus, list.next is the last element. This element is thus deleted and
+  set to null. Furthermore, it can be easily shown that this strategy applies
+  to circular lists. Just replace line 11 with list.next = head\_node and
+  replace the check in line 8 with list.next.next != head\_node. Therefore,
+  this algorithm is correct.
+\end{description}
+
+\textbf{Efficiency}\\
+For comparison purposes presented bellow is the algorithm for a different two
+node version of delete\_last\_node modified from Dr. Qin C++ lecture slides.
+
+\begin{algorithmic}[1]
+  \Function{delete\_last\_node}{Node* list}
+  \State Node* (cur_ptr, pre_ptr) = null
+  \If {list == null}
+  \State \Return 0
+  \EndIf
+  \If {list.next == null}
+  \State delete list
+  \State list = null
+  \State \Return
+  \EndIf
+  pre_ptr = list;
+  cur_ptr = list->next;
+  \While {cur_ptr->next != null}
+  \State list = list.next
+  \EndWhile
+  \State delete list.next
+  \State list.next = null
+  \State \Return
+  \EndFunction
+\end{algorithmic}
+\end{document}

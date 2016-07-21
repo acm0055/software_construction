@@ -1,0 +1,39 @@
+#include <string>
+using namespace std;
+
+#ifndef MENU_H
+#define MENU_H 1
+struct menu_entry {
+  menu_entry* next_entry;
+  string entry_desc;
+};
+
+struct menu {
+  menu_entry* head;
+  char num_items;
+  string header_msg;
+  string footer_msg;
+};
+
+menu init_main_menu();
+menu init_move_menu();
+
+char main_select();
+char move_select(user& user_in);
+
+//Displays the start menu and
+//accepts user input modifying the
+//program execution accordingly.
+void start_menu(menu main);
+//Displays the game move select and
+//accepts user input modifying the
+//program execution accordingly.
+void move_menu(menu move);
+//Displays the top 5 high scores of
+//the Dragons game.
+void display_high_scores(string listname);
+//Updates the high scores list
+//based if the user is in the
+//top 5 scores or not.
+void write_high_scores(user& user_in, string listname);
+#endif /*MENU_H*/

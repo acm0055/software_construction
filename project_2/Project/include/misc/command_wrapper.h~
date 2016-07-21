@@ -1,0 +1,26 @@
+#ifndef COMMAND_WRAPPER_H
+#define COMMAND_WRAPPER_H 1
+
+#include <string>
+#include <cstdlib>
+using namespace std;
+
+class Command_Wrapper {
+ private:
+  string command;
+  string arguments;
+  string file_name;
+  bool out_to_screen;
+ public:
+  void call();
+  string set_file_name();
+  string set_command();
+  bool set_out_to_screen();
+  string set_command_arguments();
+  const string& get_file_name();
+  const string& get_command();
+  bool get_out_to_screen();
+  const string& get_command_arguments();
+};
+
+#endif /*COMMAND_WRAPPER_H*/

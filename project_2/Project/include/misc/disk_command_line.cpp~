@@ -1,0 +1,46 @@
+#include "disk_command_line.h"
+
+void Disk_Command_Line::parse_cmd (string cmd)
+{
+    while (user_input != "exit") {
+    cout << "> ";
+    getline(cin, user_input);
+
+    //may change implementation
+    //based on the speed of checks
+    if (user_input == "run")
+      current_cmd = RUN;
+    else if (user_input == "set interval")
+      current_cmd = SET_INT;
+    else if (user_input == "set count")
+      current_cmd = SET_INT;
+    else if (user_input == "set report")
+      current_cmd = SET_INT;
+    else if (user_input == "set blk_read")
+      current_cmd = SET_INT;
+    else if (user_input == "set blk_read/s")
+      current_cmd = SET_INT;
+    else if (user_input == "set kb_read/s")
+      current_cmd = SET_INT;
+    else if (user_input == "set blk_write")
+      current_cmd = SET_INT;
+    else if (user_input == "set blk_write/s")
+      current_cmd = SET_INT;
+    else if (user_input == "set kb_write")
+      current_cmd = SET_INT;
+    else if (user_input == "print conf")
+      current_cmd = SET_INT;
+    else if (user_input == "print report")
+      current_cmd = SET_INT;
+    else if (user_input == "save")
+      current_cmd = SET_INT;
+    else if (user_input == "help")
+      current_cmd = SET_INT;
+    else; //do nothing for now
+  }
+}
+
+Disk_Command_Line::run_cmd()
+{
+  
+}

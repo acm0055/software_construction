@@ -1,0 +1,36 @@
+10
+What year was Auburn University renamed to Auburn?
+1960
+-1,0,2
+What was Auburn University named before Auburn?
+Alabama Polytechnic Institute
+-1,1,2
+What is the name of Auburn's student paper?
+The Auburn Plainsman
+-1,0,1
+What is Auburn's campus radio station's indentifer?
+WEGL
+-1,1,1
+This former graduate of Auburn now runs Apple?
+Tim Cook
+-1,2,0
+This cofounder of Wikipedia graduated from Auburn?
+Jimmy Wales
+-1,0,2
+What is the name of Auburn's football stadium?
+Jordan-Hare Stadium
+-1,0,1
+What is the name of Auburn's mascot?
+Aubie
+-1,1,1
+This Auburn coach led Auburn to a National Campionship win in 2010?
+Gene Chizik
+-1,1,0
+This is the Auburn University year book?
+Glomerata
+-1,0,1
+
+All the current questions above came from a mix of personal knowledge
+the Auburn Wikipedia page
+(https://en.wikipedia.org/wiki/Auburn_University#Notable_alumni_and_faculty_members)
+and related subpages.

@@ -1,0 +1,18 @@
+struct user_prop {
+  char time;
+  char money;
+  char intelligence;
+};
+
+struct user {
+  std::string name;
+  unsigned short pos;
+  user_prop attr;
+};
+
+//Modifies the users properties
+//based on the modifications presented.
+void mod_user_prop(user_prop& prop, const user_prop& mods);
+
+void init_user(user& user_in, string name, unsigned short pos,
+	       user_prop init_props);

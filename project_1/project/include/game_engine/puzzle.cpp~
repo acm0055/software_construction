@@ -1,0 +1,103 @@
+#include "puzzle.h"
+#include <iostream>
+#include <string>
+#include <fstream>
+#include <vector>
+using namespace std;
+
+
+//Adds question to the end of list
+void add_question(quiz_node* elem, quiz_list& list) {
+  if (list.num_elements > 0) {
+    list.tail->next = elem;
+    list.tail = elem;
+  }
+  else {
+    list.head = elem;
+    list.tail = elem;
+  }
+}
+//Adds question to the end of list
+void add_question(string question, string ans, user_prop mods, quiz_list& list)
+{
+  quiz_node* elem = new quiz_node{nullptr, question, ans, mods};
+  add_question(elem, list);
+}
+//Removes the tail of the list and
+//adjusts list properties likewise.
+quiz_node* remove_question(quiz_list& list)
+{
+  quiz_node* elem = list.head;
+  if (list.num_elements > 0) {
+    if (list.num_elements == 1) {
+      list.head = nullptr;
+      list.tail = nullptr;
+    }
+    else {
+      list.head = list.head->next;
+      list.num_elements--;
+    }
+  }
+  return elem;
+}
+//Parses a single question from a text file and
+//returns the question.
+quiz_node* parse_question(std::ifstream& file)
+{
+  string question, ans, user_mods;
+  //question is first line
+  getline(file, question);
+  //answer is second line
+  getline(file, ans);
+  //user_mods is third line
+  getline(file, user_mods);
+  return new quiz_node{nullptr, question, ans,
+      parse_user_prop(user_mods)};
+}
+//Parses the user property string to form
+//the list of user properties.
+user_prop parse_user_prop(string props)
+{
+  string time, money, intelligence;
+  int old_pos;
+  int comma_pos = props.find_first_of(',');
+  time = props.substr(0, comma_pos);
+  old_pos = comma_pos;
+  comma_pos = props.find_first_of(',', comma_pos);
+  money = props.substr(old_pos + 1, comma_pos - old_pos);
+  old_pos = comma_pos;
+  intelligence = props.substr(old_pos + 1);
+
+  return user_prop{static_cast<char>(stoi(time)),
+      static_cast<char>(stoi(money)),
+      static_cast<char>(stoi(intelligence))};
+}
+//Initializes the quiz list from a quiz file.
+//Assumes properly formated file.
+quiz_list init_quiz_list(string filename)
+{
+  ifstream file{filename};
+  vector<quiz_node*> unperm_list{};
+  quiz_list perm_list{};
+
+  while (file) {
+    unperm_list.push_back(parse_question(file));
+  }
+
+  //from algorithms assignment
+  //author: Chase Minor
+  quiz_node* temp;
+  int rng_index;
+  //simple array permutate in theta(n) time
+  for (int i = 0; i < unperm_list.size(); i++) {
+    rng_index = rand() % unperm_list.size();
+    temp = unperm_list[i];
+    unperm_list[i] = unperm_list[rng_index];
+    unperm_list[rng_index] = temp; 
+  }
+
+  for (int i = 0; i < unperm_list.size(); i++)
+    add_question(unperm_list[i], perm_list);
+
+  return perm_list;
+}

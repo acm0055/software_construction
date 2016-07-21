@@ -1,0 +1,61 @@
+#ifndef MONITOR_H
+#define MONITOR_H 1
+
+#include <string>
+#include <list>
+#include "../parser/sw_parser.h"
+#include "../misc/audisktool.h"
+#include "../misc/command_wrapper.h"
+using namespace std;
+
+template <class T>
+class Monitor {
+ protected:
+  string help_diag;
+  string res_file_name;
+  SW_Parser<T> parser;
+  Command_Wrapper data_grabber;
+  string config_name;
+  list<result> results;
+ public:
+  Monitor(string res_file_name_in, string config_name_in, string help_diag_in,
+	  Command_Wrapper data_grabber_in, SW_Parser<T> parser_in)
+    {
+      res_file_name = res_file_name_in;
+      config_name = config_name_in;
+      help_diag = help_diag_in;
+      data_grabber = data_grabber_in;
+      parser = parser_in;
+    }
+  void print_results()
+  {
+    for (result x : results) {
+      cout << x.key << " " << x.value << endl;
+    }
+  }
+  string set_config_file_name()
+  {
+    string temp;
+    temp = config_name;
+
+    return temp;
+  }
+  string set_output_file_name()
+  {
+    string temp;
+    temp = res_file_name;
+
+    return res_file_name;
+  }
+  const string& get_config_file_name()
+  {
+    return config_name;
+  }
+  const string& get_output_file_name()
+  {
+    return res_file_name;
+  }
+  virtual void run_monitor();
+};
+
+#endif /*MONITOR_H*/

@@ -1,0 +1,21 @@
+* Homework 5
+** Interface
+*** Debug interface
+*** This is a debugging version ***\n
+Unit Test Case 1: Ask no question. The program should give a warning
+message.\n
+
+Unit Test Case 2.1: Ask 1 question in the linked list. The tester enters an
+incorrect answer.\n
+Case 2.1 passed...
+
+Unit Test Case 2.2: Ask 1 question in the linked list. The tester enters a
+correct answer.
+Case 2.2 passed...
+
+Unit Test Case 3: Ask all the questions of the last trivia in the linked list.
+...
+
+Unit Test Case 4: Ask five questions in the linked list.
+
+*** End of the Debugging Version ***

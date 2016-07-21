@@ -1,0 +1,39 @@
+#include "user.h"
+
+enum class encounter {
+    grunt_work = 0,
+    do_nothing,
+    puzzle,
+    professor,
+    grad_student,
+    grade_papers
+};
+
+//Pointer to generic encounter function
+//syntax fix from http://stackoverflow.com/
+//  questions/4295432/typedef-function-pointer
+typedef void(*encounter_func)(user& user_in, void* special);
+
+encounter_func* generate_encounter_array();
+
+/////////////////////
+//Encounter methods//
+/////////////////////
+
+//Returns an encounter based on the random
+//probilities specified in the program design doc.
+encounter_func generate_encounter();
+//Modifies user according to the specifications of grunt work
+void grunt_work(user& user_in, void*);
+//Modifies user according to the specifications of do nothing
+void do_nothing(user& user_in, void*);
+//Modifies user according to the specifications of puzzle.
+//Asks user a puzzle question and removes that question from
+//the puzzle list.
+void puzzle(user& user_in, void* puzzle_list);
+//Modifies user according to the specifications of professor
+void professor(user& user_in, void*);
+//Modifies user according to the specifications of grad student
+void grad_student(user& user_in, void*);
+//Modifies user according to the specifications of grade papers
+void grade_papers(user& user_in, void*);

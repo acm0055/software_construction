@@ -1,0 +1,44 @@
+#ifndef AUDISKTOOL_H
+#define AUDISKTOOL_H 1
+
+#include <string>
+#include <ctime>
+using namespace std;
+
+template <typename T>
+struct sm_key_val
+{
+  string key;
+  T value;
+};
+
+struct result : sm_key_val<string>
+{
+};
+
+struct disk_item : sm_key_val<unsigned long>
+{
+};
+
+struct config_item : sm_key_val<bool>
+{
+};
+
+struct disk_config {
+  time_t interval;
+  unsigned int count;
+  bool print_blk_read;
+  bool print_blk_read_s;
+  bool print_kb_read_s;
+  bool print_blk_write;
+  bool print_blk_write_s;
+  bool print_kb_write_s;
+};
+
+void delay(time_t delay)
+{
+  time_t start = time(0);
+  while (static_cast<int>(difftime(time(0),start)) >= delay);
+}
+
+#endif /*AUDISKTOOL_H*/

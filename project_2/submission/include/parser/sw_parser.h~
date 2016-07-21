@@ -1,0 +1,25 @@
+#ifndef SW_PARSER_H
+#define SW_PARSER_H 1
+
+#include <list>
+#include <string>
+#include "../misc/audisktool.h"
+#include "../misc/command_wrapper.h"
+using namespace std;
+
+template <class T>
+class SW_Parser {
+ private:
+  list<T> items;
+  string rule;
+  string file_name;
+  char sentinel;
+ public:
+  list<T> get_list();
+  string set_file_name(string file_name_in);
+  void parse_file();
+  string set_rule();
+  const string& get_rule();
+};
+
+#endif /*SW_PARSER*/

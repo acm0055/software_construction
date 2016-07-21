@@ -1,0 +1,306 @@
+/*
+ * Copyright (c) 2016, Austin Minor
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ * * Redistributions of source code must retain the above copyright
+ *      notice, this list of conditions and the following disclaimer.
+ * * Redistributions in binary form must reproduce the above copyright
+ *      notice, this list of conditions and the following disclaimer in the
+ *      documentation and/or other materials provided with the distribution.
+ * * Neither the name of the copyright holder nor the
+ *      names of its contributors may be used to endorse or promote products
+ *      derived from this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+ * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+ * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ * DISCLAIMED. IN NO EVENT SHALL Austin Chase Minor BE LIABLE FOR ANY
+ * DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+ * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+ * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ * ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ * 
+ * Name: Austin Minor
+ * Auburn UserID: 903223922
+ * filename: hw2.cpp
+ * Development Environment: emacs, g++, Linux
+ * Version: 1/26/16 
+ * Compile: g++ hw2.cpp -std=c++11 -o hw1
+ *                          or for older gcc versions
+ *                    g++ hw2.cpp -std=c++0x -o hw1
+ * Sample usage: ./hw2
+ * Sources: I did not use any external sources for
+ * this assignment.
+ *
+ * Program for computing (if it exists) the amortization chart
+ * of a given loan. Relies on user input to for the data and
+ * print a formated chart with summary of the amortization.
+ */
+
+#include<iostream>
+#include<cmath>
+using namespace std;
+
+//Introduce functions into the namespace
+//so they can be used below
+void print_menu();
+void print_line(int, double, double, double, double, double);
+void print_remaining_spaces(int, int);
+bool exceeds_width_inclusive(int, int);
+int print_entry(int, int, int);
+int print_entry(double, int, int);
+
+const int TERM_WIDTH {55};
+const double RATE_TO_PERCENT {1e-2};
+const int NORM_COL_WIDTH {8};
+//Extra weights caused by symbols
+//Dollar ($.00) Integer () Double (.0)
+const int WEIGHT_DOLLAR = 4;
+const int WEIGHT_INTEGER = 0;
+const int WEIGHT_DOUBLE = 2;
+
+//Program to calculate the amortization table
+//of a given loan. Returns with an error message
+//if loan cannot be repayed.
+int main() {
+  cout.setf(ios::fixed);
+  cout.setf(ios::showpoint);
+  cout.precision(2);
+
+  int month{};
+  double balance = 0,
+    payment = 0,
+    rate = 0,
+    interest = 0,
+    principal = 0,
+    monthly_rate = 0,
+    tot_interest = 0;
+    
+
+  cout << "Loan Amount: ";
+  cin >> balance;
+
+  cout << "Interest Rate (% per year): ";
+  cin >> rate;
+
+  cout << "Monthly Payments: ";
+  cin >> payment;
+  cout << endl;
+
+  monthly_rate = rate / 12;
+
+  //Checks to see if the payment is greater than
+  //the initial interest. Exits if it is not.
+  if(payment < (monthly_rate * RATE_TO_PERCENT * balance)) {
+    cout << "Monthly payments must be greater than"
+	 << " interest. You will not pay off loan"
+	 << " on this scheme. Exiting.";
+    return 0;
+  }
+      
+  print_menu();
+
+  //Print the intial day 0 loan information
+  print_line(month, balance, payment, rate, interest, principal);
+  month++;
+
+  //Calculate the monthly loan information
+  while(balance > 0) {
+    interest = balance * monthly_rate * RATE_TO_PERCENT;
+    tot_interest += interest;
+
+    principal = payment - interest;
+    balance -= principal;
+
+    //Determines if the month's payment is more
+    //than what is owed and responds accordingly.
+    if(balance < 0) {
+      principal += balance;
+      payment = principal;
+      balance = 0;
+    }
+    
+    print_line(month, balance, payment, monthly_rate, interest, principal);
+
+    month++;
+  }
+
+  //print row of stars for formating interface
+  for(int i = 0; i < TERM_WIDTH; i++) {
+    cout << "*";
+  }
+  cout << endl << endl;
+  //Print end results
+  //Shift month result because intecremented
+  //one past on exiting result loop
+  cout << "It takes " << (month - 1)
+       << " months to pay off the loan." << endl
+       << "Total interest paid is: $" << tot_interest << endl;
+  return 0;
+}
+
+//Prints intro menu with title and
+//column labels for the program.
+void print_menu() {
+  //print row of stars for formating interface
+  for(int i = 0; i < TERM_WIDTH; i++) {
+    cout << "*";
+  }
+  //print title
+  cout << endl << "          "
+       << "Amortization Table"
+       << endl;
+  //print row of stars for formating interface
+  for(int i = 0; i < TERM_WIDTH; i++) {
+    cout << "*";
+  }
+  cout << endl;
+  //print columns labels
+  cout << "Month   Balance Payment Rate    Interest Principal"
+       << endl;
+}
+
+//Prints the next payment line following the spacing
+//set forth by the individual description columns.
+//Attempts to print the infomation left justified below each relavant
+//column, but assures that at least 1 space exists between elements.
+//int month: current month
+//double balance: current balance
+//double payment: current payment
+//double rate: current rate
+//double interest: current interest
+//double principal: current principal
+void print_line (int month, double balance, double payment,
+		 double rate, double interest, double principal) {
+  //refers to the formating overflow of a previous column
+  //results are shifted in accordance to this value to ensure
+  //one space always exists between individual values
+  int shift_width{};
+  
+  //Always starts with a balance and a month.
+  //IE no possibility of a "N\A".
+  shift_width = print_entry(month, WEIGHT_INTEGER, NORM_COL_WIDTH);
+  print_remaining_spaces(0, shift_width);
+
+  cout << "$";
+  shift_width = print_entry(balance, WEIGHT_DOLLAR, NORM_COL_WIDTH);
+  print_remaining_spaces(0, shift_width);
+
+  switch (month) {
+  case 0:
+    cout << "N\\A";
+    print_remaining_spaces(3, NORM_COL_WIDTH - shift_width);
+    break;
+  default:
+    cout << "$";
+    shift_width = print_entry(payment, WEIGHT_DOLLAR, NORM_COL_WIDTH - shift_width);
+    print_remaining_spaces(0, shift_width);
+  }
+
+  switch (month) {
+  case 0:
+    cout << "N\\A";
+    print_remaining_spaces(3, NORM_COL_WIDTH);
+    break;
+  default:
+    //change precision to print rate
+    //then change it back
+    cout.precision(1);
+    shift_width = print_entry(rate, WEIGHT_DOUBLE + shift_width, NORM_COL_WIDTH);
+    print_remaining_spaces(0, shift_width);
+    cout.precision(2);
+  }
+
+  switch (month) {
+  case 0:
+    cout << "N\\A";
+    //special width column
+    print_remaining_spaces(3, (NORM_COL_WIDTH + 1));
+    break;
+  default:
+    cout << "$";
+    //special width column
+    shift_width = print_entry(interest, WEIGHT_DOLLAR + shift_width, (NORM_COL_WIDTH + 1));
+    print_remaining_spaces(0, shift_width);
+  }
+
+  switch (month) {
+  case 0:
+    cout << "N\\A";
+    print_remaining_spaces(3, NORM_COL_WIDTH);
+    break;
+  default:
+    cout << "$";
+    shift_width = print_entry(principal, WEIGHT_DOLLAR + shift_width, NORM_COL_WIDTH);
+    print_remaining_spaces(0, shift_width);
+  }
+  
+  cout << endl;
+}
+
+//Prints individual values recording their character width.
+//Returns the character overflow if any, else returns 0;
+//int value: number to be displayed to output
+//int weight: special weight to be added to the length of number
+//int entry_width: space the character should occupy
+//return int: the length of the character overflow past entry_width
+int inline print_entry(int value, int weight, int entry_width) {
+  int number_width{};
+  //1 constant comes from the digit not from the log size
+  number_width = 1 + weight + static_cast<int>(log10((value > 0)? value: 1));
+
+  cout << value;
+  
+  print_remaining_spaces(number_width, entry_width);
+  
+  if(exceeds_width_inclusive(entry_width, number_width)) {
+    return number_width - 7;
+  }
+  return 0;
+}
+
+//Prints individual values recording their character width.
+//Returns the character overflow if any, else returns 0;
+//double value: number to be displayed to output
+//int weight: special weight to be added to the length of number
+//int entry_width: space the character should occupy
+//return int: the length of the character overflow past entry_width
+int inline print_entry(double value, int weight, int entry_width) {
+  int number_width{};
+  //1 constant comes from the digit not from the log size
+  number_width = 1 + weight + static_cast<int>(log10((value > 0)? value: 1));
+
+  cout << value;
+
+  print_remaining_spaces(number_width, entry_width);
+  
+  if(exceeds_width_inclusive(entry_width, number_width)) {
+    return number_width - 7;
+  }
+  return 0;
+}
+
+//Prints a number of spaces specified by a start to a end.
+//Counts [start, end).
+//int start: starting number
+//int end: number to end on
+void inline print_remaining_spaces(int start, int end) {
+  while(start < end) {
+    cout << " ";
+    start++;
+  }
+}
+
+//Determines inclusively (<=) if a given
+//width exceeds its allowance.
+//int allowance: tolerance of width
+//int width: actually width of output
+bool inline exceeds_width_inclusive(int allowance, int width) {
+  if(allowance <= width)
+    return true;
+  return false;
+}

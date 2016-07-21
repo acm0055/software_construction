@@ -1,0 +1,63 @@
+#include "game_play.h"
+#include "encounter.h"
+#include "user.h"
+#include "puzzle.h"
+#include <iostream>
+using namespace std;
+
+//Move the character and generate a random encounter.
+void move_character(user& user_in, quiz_list list)
+{
+  user_in.pos++;
+
+  encounter_func encounter = generate_encounter();
+  encounter(user_in, &list);
+}
+//Reading tech papers boosts intelligence and loses time.
+void read_technical_paper(user& user_in)
+{
+  user_in.attr.intelligence += TECH_PAPER_INT_BOOST;
+  user_in.attr.time--;
+}
+//Searches for loose change boosts money and loses time.
+void search_for_loose_change(user& user_in)
+{
+  user_in.attr.money += LOOSE_CHANGE_MNY_BOOST;
+  user_in.attr.time--;
+}
+//Displays character and his/her stats
+void view_character(user& user_in)
+{
+  cout << endl;
+  for (int i = 0; i < 79; i++)
+    cout << "~";
+  cout << endl;
+
+  cout << "\t\t" << user_in.name << endl;
+  cout << "\t\tIntelligence" << user_in.attr.intelligence << endl;
+  cout << "\t\tMoney" << user_in.attr.money << endl;
+  cout << "\t\tTime" << user_in.attr.time << endl;
+
+  for (int i = 0; i < 79; i++)
+    cout << "~";
+}
+
+////////////////
+//Menu methods//
+////////////////
+
+//Displays the start menu and
+//accepts user input modifying the
+//program execution accordingly.
+void start_menu();
+//Displays the game move select and
+//accepts user input modifying the
+//program execution accordingly.
+void move_select();
+//Displays the top 5 high scores of
+//the Dragons game.
+void display_high_scores(string listname);
+//Updates the high scores list
+//based if the user is in the
+//top 5 scores or not.
+void write_high_scores(user& user_in, string listname);

@@ -1,0 +1,25 @@
+#include "user.h"
+
+#ifndef GAME_PLAY_H
+#define GAME_PLAY_H 1
+
+
+const char TECH_PAPER_INT_BOOST{2};
+const char LOOSE_CHANGE_MNY_BOOST{2};
+
+struct score_list {
+  score_node *head;
+  score_node *tail;
+  int num_elements;
+  int max_num_elements;
+};
+
+//Move the character and generate a random encounter.
+void move_character(user& user_in);
+//Reading tech papers boosts intelligence and loses time.
+void read_technical_paper(user& user_in);
+//Searches for loose change boosts money and loses time.
+void search_for_loose_change(user& user_in);
+//Displays character and his/her stats
+void view_character(user& user_in);
+#endif /*GAME_PLAY_H*/

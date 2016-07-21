@@ -1,0 +1,41 @@
+//Right answer adds mods
+//Wrong answer subtracts mods
+struct quiz_node {
+  quiz_node *next;
+  std::string question;
+  std::string answer;
+  user_prop mods;
+};
+
+struct quiz_list {
+  quiz_node *head;
+  quiz_node *tail;
+  int num_elements;
+};
+
+struct score_node {
+  score_node *next;
+  unsigned short score;
+};
+
+////////////////
+//Quiz methods//
+////////////////
+
+//Adds question to list based on
+//question properties. Does this
+//for a global list.
+void add_question(std::string question, std::string ans, user_prop mods, quiz_list& quiz);
+void add_question(quiz_node* question, quiz_list& quiz);
+//Removes the tail of the list and
+//adjusts list properties likewise.
+quiz_node* remove_question(quiz_list& list);
+//Parses a single question from a text file and
+//returns the question.
+quiz_node* parse_question(std::ifstream& file);
+//Parses the user property string to form
+//the list of user properties.
+user_prop parse_user_prop(std::string props);
+
+//Initializes the quiz list from a quiz file.
+quiz_list init_quiz_list(string filename);

@@ -1,0 +1,68 @@
+#include <sstream>
+#include <fstream>
+#include <list>
+#include <string>
+#include <vector>
+#include "sw_parser.h"
+using namespace std;
+
+template <class T>
+SW_Parser<T>::SW_Parser(string rule_in, string file_name_in, char sentinel_in)
+{
+  rule = rule_in;
+  set_rule();
+  file_name = file_name_in;
+}
+
+template <class T>
+list<T> SW_Parser<T>::get_list()
+{
+  return items;
+}
+
+template <class T>
+string SW_Parser<T>::set_file_name(string file_name_in)
+{
+  string temp;
+  temp = file_name;
+
+  file_name = file_name_in;
+  return temp;
+}
+
+template <class T>
+void SW_Parser<T>::parse_file()
+{
+  fstream file{file_name};
+  T kv;
+
+  int i = 0;
+  while (file) {
+    if (kv.key.at(0) == sentinel) {
+      //flush out val
+      file >> kv.value;
+    }
+    else {
+      kv.key = parsed_rule[i];
+      file >> kv.value;
+      items.push_back(kv);
+    }
+    i++;
+  }
+}
+
+template <class T>
+string SW_Parser<T>::set_rule()
+{
+  stringstream temp{rule};
+  string key;
+  while (temp) {
+    getline(temp, key);
+    parsed_rule.push_back(key);
+  }
+}
+
+template <class T>
+const string& SW_Parser<T>::get_rule()
+{
+}

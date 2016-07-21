@@ -1,0 +1,24 @@
+#include <iostream>
+
+int main() {
+  const int screen_width {80};
+  int response {};
+  
+  for (int i = 0; i < screen_width; i++)
+    std::cout << "=";
+
+  std::cout << "\n| Welcome to the Auburn Branch"
+	    << " of the Tiger Bank|\n";
+
+  std::cout << "1. Login\n2. Quit\nResponse: ";
+  
+  std::cin >> response;
+
+  if (response == 1) {
+    std::cout << "Welcome!\n";
+    return 0;
+  }
+  else {
+    return 0;
+  }
+}

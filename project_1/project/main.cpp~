@@ -1,0 +1,74 @@
+#include "include/game_engine/menu.h"
+#include "include/game_engine/user.h"
+#include "include/game_engine/game_play.h"
+#include "include/game_engine/puzzle.h"
+#include <iostream>
+using namespace std;
+
+user select_difficulty();
+
+int main() {
+  menu main_menu = init_main_menu();
+  menu move_menu = init_move_menu();
+  quiz_list quiz{};
+  user player{};
+  char main_action{'a'};
+  char move_action{'a'};
+  while (main_action != 'c') {
+    display_menu(main_menu);
+    main_action = main_select();
+    switch (main_action) {
+    case 'a':
+      player = select_difficulty();
+      while (move_action != 'e') {
+	display_menu(move_menu);
+	move_action = move_select();
+	//user has lost game
+	if (player.attr.time <= 0) {
+	  move_action == 'e';
+	  if (player.pos == 0) {
+	    write_high_scores(player, "d");
+	  }
+	  else {
+	    cout << "Game Over" << endl;
+	  }
+	}
+      }
+      break;
+    case 'b':
+      break;
+    }
+  }
+}
+
+user select_difficulty()
+{
+  char input;
+  display_menu(init_difficulty_menu());
+  input = diff_select();
+  switch (input) {
+  case 'a':
+    return user{};
+  case 'b':
+    return user{};
+  case 'c':
+    return user{};
+  }
+}
+
+void process_move(user& user_in, quiz_list& quiz, char move)
+{
+  switch (move) {
+  case 'a':
+    move_character(user_in, quiz);
+    break;
+  case 'b':
+    read_technical_paper(user_in);
+    break;
+  case 'c':
+    search_for_loose_change(user_in);
+    break;
+  case 'd':
+    view_character(user_in);
+  }
+}

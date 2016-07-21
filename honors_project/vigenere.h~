@@ -1,0 +1,21 @@
+#include <cstddef>
+#include <string>
+#include <vector>
+#include <memory>
+#include "crypto_method.h"
+
+class columnar_cipher : public crypto_method {
+ private:
+  char SENTINAL = '\a';
+  
+  int key_length;
+  std::vector<char> order;
+  void init_order();
+  std::vector<std::string> columnize(std::string::size_type column_size, const std::string& message);
+  std::string symetric_codify(std::string message);
+ public:
+  columnar_cipher(std::string key);
+  ~columnar_cipher();
+  std::string encrypt(std::string message);
+  std::string decrypt(std::string message);
+};
